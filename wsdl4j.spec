@@ -1,7 +1,7 @@
 %define name            wsdl4j
 %define version         1.5.2
 %define cvsver          1_5_2
-%define release         %mkrel 3.2
+%define release         %mkrel 3.3
 %define section         free
 %define gcj_support     1
 
@@ -19,8 +19,6 @@ URL:            http://sourceforge.net/projects/wsdl4j
 # cvs -z3 -d:pserver:anonymous@wsdl4j.cvs.sourceforge.net:/cvsroot/wsdl4j co -P -r wsdl4j-1_5_2 wsdl4j
 Source0:        http://download.sourceforge.net/wsdl4j/wsdl4j-src-%{version}.tar.bz2
 %if %{gcj_support}
-Requires(post): java-gcj-compat
-Requires(postun): java-gcj-compat
 BuildRequires:  java-gcj-compat-devel
 %else
 BuildArch:      noarch
