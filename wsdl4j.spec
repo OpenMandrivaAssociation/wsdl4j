@@ -5,8 +5,8 @@
 Summary:        Web Services Description Language Toolkit for Java
 Name:           wsdl4j
 Version:        1.6.2
-Release:        0.0.1
-Epoch:                0
+Release:        %mkrel 0.0.1
+Epoch:          0
 Group:          Development/Java
 License:        CPL
 URL:            http://sourceforge.net/projects/wsdl4j
@@ -62,7 +62,7 @@ done
 
 # javadoc
 install -d -m 0755 $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
-cp -pr build/javadocs/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}/
+cp -a build/javadocs/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}/
 (cd $RPM_BUILD_ROOT%{_javadocdir} && %{__ln_s} %{name}-%{version} %{name})
 
 %if %{gcj_support}
