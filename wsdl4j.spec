@@ -1,34 +1,28 @@
-%define name            wsdl4j
-%define version         1.5.2
-%define cvsver          1_5_2
-%define release         %mkrel 3.3
 %define section         free
 %define gcj_support     1
-
-# -----------------------------------------------------------------------------
+%define cvsver          1_6_2
 
 Summary:        Web Services Description Language Toolkit for Java
-Name:           %{name}
-Version:        %{version}
-Release:        %{release}
-Epoch:		0
+Name:           wsdl4j
+Version:        1.6.2
+Release:        0.0.1
+Epoch:                0
 Group:          Development/Java
 License:        CPL
 URL:            http://sourceforge.net/projects/wsdl4j
-# cvs -d:pserver:anonymous@wsdl4j.cvs.sourceforge.net:/cvsroot/wsdl4j login
-# cvs -z3 -d:pserver:anonymous@wsdl4j.cvs.sourceforge.net:/cvsroot/wsdl4j co -P -r wsdl4j-1_5_2 wsdl4j
-Source0:        http://download.sourceforge.net/wsdl4j/wsdl4j-src-%{version}.tar.bz2
+Source0:        http://downloads.sourceforge.net/wsdl4j/wsdl4j-src-%{version}.zip
 %if %{gcj_support}
 BuildRequires:  java-gcj-compat-devel
 %else
+BuildRequires:  java-devel
 BuildArch:      noarch
 %endif
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root
-Requires:       jaxp_parser_impl, java
-BuildRequires:  ant, java-devel
-BuildRequires:	jpackage-utils >= 0:1.5
-BuildRequires:	junit
-BuildRequires:	ant-junit
+Requires:       jaxp_parser_impl
+BuildRequires:  ant
+BuildRequires:  ant-junit
+BuildRequires:  jpackage-utils >= 0:1.5
+BuildRequires:  junit
 
 %description
 The Web Services Description Language for Java Toolkit (WSDL4J) allows the
@@ -44,12 +38,12 @@ Summary:        Javadoc for %{name}
 Javadoc for %{name}.
 
 %prep
-%setup -q -n %{name}
+%setup -q -n %{name}-%{cvsver}
 
 %build
 export CLASSPATH=
 export OPT_JAR_LIST="ant/ant-junit junit"
-%ant -Dbuild.compiler=modern compile javadocs
+%{ant} -Dbuild.compiler=modern compile javadocs
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -69,6 +63,7 @@ done
 # javadoc
 install -d -m 0755 $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
 cp -pr build/javadocs/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}/
+(cd $RPM_BUILD_ROOT%{_javadocdir} && %{__ln_s} %{name}-%{version} %{name})
 
 %if %{gcj_support}
 %{_bindir}/aot-compile-rpm
@@ -85,18 +80,9 @@ rm -rf $RPM_BUILD_ROOT
 %{clean_gcjdb}
 %endif
 
-%post javadoc
-rm -f %{_javadocdir}/%{name}
-ln -s %{name}-%{version} %{_javadocdir}/%{name}
-
-%postun javadoc
-if [ "$1" = "0" ]; then
-    rm -f %{_javadocdir}/%{name}
-fi
-
 %files
 %defattr(0644,root,root,0755)
-%doc license.html readme.txt
+%doc license.html
 %{_javadir}/*
 %if %{gcj_support}
 %attr(-,root,root) %{_libdir}/gcj/%{name}
@@ -105,5 +91,4 @@ fi
 %files javadoc
 %defattr(0644,root,root,0755)
 %{_javadocdir}/%{name}-%{version}
-
-
+%{_javadocdir}/%{name}
