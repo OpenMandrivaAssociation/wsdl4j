@@ -20,6 +20,7 @@ BuildRequires:  java-gcj-compat-devel
 BuildRequires:  java-devel
 BuildArch:      noarch
 %endif
+BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root
 Requires:       jaxp_parser_impl
 BuildRequires:  ant
 BuildRequires:  ant-junit
