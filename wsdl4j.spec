@@ -5,7 +5,7 @@
 Summary:        Web Services Description Language Toolkit for Java
 Name:           wsdl4j
 Version:        1.6.2
-Release:        %mkrel 2.0.3
+Release:        %mkrel 2.0.4
 Epoch:          0
 Group:          Development/Java
 License:        CPL
@@ -84,14 +84,14 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 %update_maven_depmap
-/usr/sbin/update-alternatives --install %{_javadir}/qname.jar qname %{_javadir}/wsdl4j-qname.jar 00100
+/usr/sbin/update-alternatives --install %{_javadir}/qname.jar qname %{_javadir}/wsdl-qname.jar 00100
 %if %{gcj_support}
 %{update_gcjdb}
 %endif
 
 %postun
 if [ "$1" = "0" ]; then
-    /usr/sbin/update-alternatives --remove qname %{_javadir}/wsdl4j-qname.jar
+    /usr/sbin/update-alternatives --remove qname %{_javadir}/wsdl-qname.jar
 fi
 %update_maven_depmap
 %if %{gcj_support}
