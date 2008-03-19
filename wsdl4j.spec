@@ -5,7 +5,7 @@
 Summary:        Web Services Description Language Toolkit for Java
 Name:           wsdl4j
 Version:        1.6.2
-Release:        %mkrel 2.0.2
+Release:        %mkrel 2.0.3
 Epoch:          0
 Group:          Development/Java
 License:        CPL
@@ -101,6 +101,7 @@ fi
 %files
 %defattr(0644,root,root,0755)
 %doc license.html
+%ghost %{_javadir}/qname.jar
 %{_javadir}/*
 %{_datadir}/maven2/poms/*
 %{_mavendepmapfragdir}
