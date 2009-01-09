@@ -5,15 +5,15 @@
 Summary:        Web Services Description Language Toolkit for Java
 Name:           wsdl4j
 Version:        1.6.2
-Release:        %mkrel 2.0.4
+Release:        %mkrel 2.0.5
 Epoch:          0
 Group:          Development/Java
 License:        CPL
 URL:            http://sourceforge.net/projects/wsdl4j
 Source0:        wsdl4j-%{version}-src.tar.gz
 Source1:        wsdl4j-%{version}.pom
-##cvs -d:pserver:anonymous@wsdl4j.cvs.sourceforge.net:/cvsroot/wsdl4j login 
-##cvs -z3 -d:pserver:anonymous@wsdl4j.cvs.sourceforge.net:/cvsroot/wsdl4j export -r wsdl4j-1_6_2 wsdl4j 
+##cvs -d:pserver:anonymous@wsdl4j.cvs.sourceforge.net:/cvsroot/wsdl4j login
+##cvs -z3 -d:pserver:anonymous@wsdl4j.cvs.sourceforge.net:/cvsroot/wsdl4j export -r wsdl4j-1_6_2 wsdl4j
 %if %{gcj_support}
 BuildRequires:  java-gcj-compat-devel
 %else
@@ -58,7 +58,8 @@ install -m 644 build/lib/%{name}.jar \
       $RPM_BUILD_ROOT%{_javadir}/%{name}-%{version}.jar
 install -m 644 build/lib/qname.jar \
       $RPM_BUILD_ROOT%{_javadir}/wsdl-qname-%{version}.jar
-touch $RPM_BUILD_ROOT%{_javadir}/qname.jar # for %ghost
+ln -sf $RPM_BUILD_ROOT%{_javadir}/wsdl-qname-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/qname.jar
+#touch $RPM_BUILD_ROOT%{_javadir}/qname.jar # for %ghost
 
 (cd $RPM_BUILD_ROOT%{_javadir} && for jar in *-%{version}.jar; do ln -sf ${jar} `echo $jar| sed  "s|-%{version}||g"`; done)
 
