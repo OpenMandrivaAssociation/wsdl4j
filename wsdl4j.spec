@@ -49,39 +49,39 @@ export OPT_JAR_LIST="ant/ant-junit junit"
 %{ant} -Dbuild.compiler=modern compile test javadocs
 
 %install
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 # jars
-install -d -m 0755 $RPM_BUILD_ROOT%{_javadir}
+install -d -m 0755 %{buildroot}%{_javadir}
 
 install -m 644 build/lib/%{name}.jar \
-      $RPM_BUILD_ROOT%{_javadir}/%{name}-%{version}.jar
+      %{buildroot}%{_javadir}/%{name}-%{version}.jar
 install -m 644 build/lib/qname.jar \
-      $RPM_BUILD_ROOT%{_javadir}/wsdl-qname-%{version}.jar
-ln -sf $RPM_BUILD_ROOT%{_javadir}/wsdl-qname-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/qname.jar
-#touch $RPM_BUILD_ROOT%{_javadir}/qname.jar # for %ghost
+      %{buildroot}%{_javadir}/wsdl-qname-%{version}.jar
+ln -sf %{buildroot}%{_javadir}/wsdl-qname-%{version}.jar %{buildroot}%{_javadir}/qname.jar
+#touch %{buildroot}%{_javadir}/qname.jar # for %ghost
 
-(cd $RPM_BUILD_ROOT%{_javadir} && for jar in *-%{version}.jar; do ln -sf ${jar} `echo $jar| sed  "s|-%{version}||g"`; done)
+(cd %{buildroot}%{_javadir} && for jar in *-%{version}.jar; do ln -sf ${jar} `echo $jar| sed  "s|-%{version}||g"`; done)
 
 
 %add_to_maven_depmap wsdl4j wsdl4j %{version} JPP wsdl4j
 
 # poms
-install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/maven2/poms
+install -d -m 755 %{buildroot}%{_datadir}/maven2/poms
 install -pm 644 %{SOURCE1} \
-    $RPM_BUILD_ROOT%{_datadir}/maven2/poms/JPP.wsdl4j.pom
+    %{buildroot}%{_datadir}/maven2/poms/JPP.wsdl4j.pom
 
 # javadoc
-install -d -m 0755 $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
-cp -a build/javadocs/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}/
-(cd $RPM_BUILD_ROOT%{_javadocdir} && %{__ln_s} %{name}-%{version} %{name})
+install -d -m 0755 %{buildroot}%{_javadocdir}/%{name}-%{version}
+cp -a build/javadocs/* %{buildroot}%{_javadocdir}/%{name}-%{version}/
+(cd %{buildroot}%{_javadocdir} && %{__ln_s} %{name}-%{version} %{name})
 
 %if %{gcj_support}
 %{_bindir}/aot-compile-rpm
 %endif
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 %post
 %update_maven_depmap
