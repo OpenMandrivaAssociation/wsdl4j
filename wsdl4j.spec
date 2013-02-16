@@ -1,11 +1,9 @@
-%define section         free
-%define gcj_support     1
-%define cvsver          1_6_2
+%define cvsver          %(echo %version |sed -e 's,\.,_,g')
 
 Summary:        Web Services Description Language Toolkit for Java
 Name:           wsdl4j
 Version:        1.6.2
-Release:        2.0.9
+Release:        3
 Epoch:          0
 Group:          Development/Java
 License:        CPL
@@ -14,13 +12,9 @@ Source0:        wsdl4j-%{version}-src.tar.gz
 Source1:        wsdl4j-%{version}.pom
 ##cvs -d:pserver:anonymous@wsdl4j.cvs.sourceforge.net:/cvsroot/wsdl4j login
 ##cvs -z3 -d:pserver:anonymous@wsdl4j.cvs.sourceforge.net:/cvsroot/wsdl4j export -r wsdl4j-1_6_2 wsdl4j
-%if %{gcj_support}
-BuildRequires:  java-gcj-compat-devel
-%else
-BuildRequires:  java-devel
 BuildArch:      noarch
-%endif
 Requires:       jaxp_parser_impl
+BuildRequires:  java-1.6.0-openjdk-devel
 BuildRequires:  ant
 BuildRequires:  ant-junit
 BuildRequires:  java-rpmbuild >= 0:1.5
@@ -57,7 +51,7 @@ install -m 644 build/lib/%{name}.jar \
       $RPM_BUILD_ROOT%{_javadir}/%{name}-%{version}.jar
 install -m 644 build/lib/qname.jar \
       $RPM_BUILD_ROOT%{_javadir}/wsdl-qname-%{version}.jar
-ln -sf $RPM_BUILD_ROOT%{_javadir}/wsdl-qname-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/qname.jar
+ln -sf wsdl-qname-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/qname.jar
 #touch $RPM_BUILD_ROOT%{_javadir}/qname.jar # for %ghost
 
 (cd $RPM_BUILD_ROOT%{_javadir} && for jar in *-%{version}.jar; do ln -sf ${jar} `echo $jar| sed  "s|-%{version}||g"`; done)
@@ -75,25 +69,15 @@ install -d -m 0755 $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
 cp -a build/javadocs/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}/
 (cd $RPM_BUILD_ROOT%{_javadocdir} && %{__ln_s} %{name}-%{version} %{name})
 
-%if %{gcj_support}
-%{_bindir}/aot-compile-rpm
-%endif
-
 %post
 %update_maven_depmap
 /usr/sbin/update-alternatives --install %{_javadir}/qname.jar qname %{_javadir}/wsdl-qname.jar 00100
-%if %{gcj_support}
-%{update_gcjdb}
-%endif
 
 %postun
 if [ "$1" = "0" ]; then
     /usr/sbin/update-alternatives --remove qname %{_javadir}/wsdl-qname.jar
 fi
 %update_maven_depmap
-%if %{gcj_support}
-%{clean_gcjdb}
-%endif
 
 %files
 %defattr(0644,root,root,0755)
