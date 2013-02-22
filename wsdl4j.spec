@@ -1,9 +1,11 @@
 %define cvsver          %(echo %version |sed -e 's,\.,_,g')
 
+%bcond_without	bootstrap
+
 Summary:        Web Services Description Language Toolkit for Java
 Name:           wsdl4j
 Version:        1.6.2
-Release:        3
+Release:        4
 Epoch:          0
 Group:          Development/Java
 License:        CPL
@@ -16,9 +18,11 @@ BuildArch:      noarch
 Requires:       jaxp_parser_impl
 BuildRequires:  java-1.6.0-openjdk-devel
 BuildRequires:  ant
-BuildRequires:  ant-junit
 BuildRequires:  java-rpmbuild >= 0:1.5
+%if !%{with bootstrap}
+BuildRequires:  ant-junit
 BuildRequires:  junit
+%endif
 
 %description
 The Web Services Description Language for Java Toolkit (WSDL4J) allows the
@@ -38,7 +42,9 @@ Javadoc for %{name}.
 %remove_java_binaries
 
 %build
+%if !%{with bootstrap}
 export OPT_JAR_LIST="ant/ant-junit junit"
+%endif
 %{ant} -Dbuild.compiler=modern compile test javadocs
 
 %install
