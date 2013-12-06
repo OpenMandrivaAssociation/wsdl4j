@@ -5,7 +5,7 @@
 Summary:        Web Services Description Language Toolkit for Java
 Name:           wsdl4j
 Version:        1.6.2
-Release:        7
+Release:        8
 Epoch:          0
 Group:          Development/Java
 License:        CPL
