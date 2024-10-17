@@ -35,7 +35,7 @@ Version:        1.6.3
 Release:        3.0%{?dist}
 Epoch:          0
 License:        CPL
-URL:            http://sourceforge.net/projects/wsdl4j
+URL:            https://sourceforge.net/projects/wsdl4j
 BuildArch:      noarch
 Source0:        http://downloads.sourceforge.net/project/wsdl4j/WSDL4J/%{version}/wsdl4j-src-%{version}.zip
 Source1:        %{name}-MANIFEST.MF
